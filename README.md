@@ -13,6 +13,7 @@
 ```
 sudo ./install.sh
 ```
+:warning: the installation script works only on Debian/Ubuntu
 
 ## From source
 
