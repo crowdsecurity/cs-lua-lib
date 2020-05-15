@@ -6,7 +6,7 @@
 
 # Install & Config
 
-`git clone git clone https://github.com/crowdsecurity/cs-lua-lib.git`
+`git clone https://github.com/crowdsecurity/cs-lua-lib.git`
 
 ## Install script
 
