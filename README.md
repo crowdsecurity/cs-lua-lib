@@ -5,7 +5,6 @@
 # Requirements
 
 ```
- apt-get install nginx
  apt-get install lua5.3
  apt-get install libnginx-mod-http-lua
  apt-get install lua-sql-sqlite3
