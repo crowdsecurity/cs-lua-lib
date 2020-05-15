@@ -25,9 +25,26 @@ sudo ./install.sh
  apt-get install lua-logging
 ```
 
-### Deploy lua package to `/usr/local/lua/crowdsec/`
+### With make
 ```
 sudo make install
+```
+
+### Manually
+
+- Create folder `/usr/local/lua/crowdsec/`:
+```
+mkdir -p /usr/local/lua/crowdsec/
+```
+
+- Copy the `cs-lua-lib/lib/*.lua` into `/usr/local/lua/crowdsec/`:
+```
+cp ./cs-lua-lib/lib/*.lua /usr/local/lua/crowdsec
+```
+
+- Copy the `cs-lua-lib/template.conf` into `/usr/local/lua/crowdsec/crowdsec.conf`:
+```
+cp ./cs-lua-lib/template.conf /usr/local/lua/crowdsec/crowdsec.conf
 ```
 
 ## Configuration
