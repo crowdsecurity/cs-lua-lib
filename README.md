@@ -12,66 +12,26 @@
 
 # Install & Config
 
+`git clone git clone https://github.com/crowdsecurity/cs-lua-lib.git`
+
+## Install script
+
+```sudo ./install.sh`
+
+## From source
 
 1. Deploy lua package to `/usr/local/lua/crowdsec/`
 ```
-$ sudo make install
-$ cat /usr/local/lua/crowdsec/crowdsec.conf
-DB_PATH=/tmp/test.db
-API_HOST=127.0.0.1
-API_PORT=8080
-API_TOKEN=
-LOG_FILE=/tmp/lua_mod.log
-CACHE_EXPIRATION=1
-CACHE_SIZE=1000
-$ cp .../test.db /tmp/test.db #an actual cs sqlite database
+sudo make install
 ```
-
-2. Load in nginx
-
-`/etc/nginx/sites-enabled/default` :
-
-```nginx
-# in the `http{}` context, load cs connector
-lua_package_path '/usr/local/lua/crowdsec/?.lua;;';
-init_by_lua_block { require "CrowdSec".init("/usr/local/lua/crowdsec/crowdsec.conf") }
-...
-server {
-...
-    location / {
-      # In the application, allow/block user
-      access_by_lua_file /usr/local/lua/crowdsec/access.lua;
-      ...
-      try_files $uri $uri/ =404;
-...
-```
-
-3 - Auto magic nginx deploiement
-
-```
-sudo make nginx
-```
-
-:warning: `nginx` folder should be placed in `/etc/nginx/`
-
-# Test it
-
-```
-$ curl 127.0.0.1/asd
-...404...
-$ ./cwcli ban add --ip 127.0.0.1 --reason 'why not' --duration 1h
-$ curl 127.0.0.1/asd
-...403...
-$ ./cwcli ban delete --target 127.0.0.1
-$ curl 127.0.0.1/asd
-...404...
-```
-
 
 ## Configuration
 
 The configuration allow for the moment only 1 entry:
 
 ```
-DB_PATH=/tmp/cs.db  <-- Path to the sqlite DB created by granola
+DB_PATH=/var/lib/crowdsec/data/crowdwatch.db  <-- Path to the sqlite DB created by crowdsec
+LOG_FILE=/tmp/lua_mod.log                     <-- path to log file
+CACHE_EXPIRATION=1                            <-- in seconds
+CACHE_SIZE=1000                               <-- cache size
 ```
