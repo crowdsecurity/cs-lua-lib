@@ -6,7 +6,6 @@
 
 ```
  apt-get install lua5.3
- apt-get install libnginx-mod-http-lua
  apt-get install lua-sql-sqlite3
  apt-get install lua-logging
 ```
