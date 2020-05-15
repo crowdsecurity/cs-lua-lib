@@ -32,7 +32,7 @@ sudo make install
 
 ## Configuration
 
-The configuration allow for the moment only 1 entry:
+The configuration allow for the moment only 4 entry:
 
 ```
 DB_PATH=/var/lib/crowdsec/data/crowdwatch.db  <-- Path to the sqlite DB created by crowdsec
