@@ -52,7 +52,7 @@ function csmod.allowIp(ip)
   if resp == nil then
     runtime.logger:debug("'" .. ip .. "' not in cache")
     local ip_int = ipToInt(ip)
-    local sqlQuery = "SELECT ip_text from ban_applications WHERE deleted_at is NULL AND strftime('%s', until) >= strftime('%s', 'now') AND start_ip >= '" .. ip_int .. "' AND end_ip <= '" .. ip_int .. "'"
+    local sqlQuery = "SELECT ip_text from ban_applications WHERE deleted_at is NULL AND strftime('%s', until) >= strftime('%s', 'now') AND start_ip <= '" .. ip_int .. "' AND end_ip >= '" .. ip_int .. "'"
     runtime.logger:debug(" query " .. sqlQuery)
     local results = runtime.db:execute(sqlQuery)
     local ok = results:fetch()

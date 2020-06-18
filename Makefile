@@ -5,7 +5,7 @@ NGINX_CONF="crowdsec_nginx.conf"
 
 default: install
 install: 
-	@bash ./requirement.sh
+	@bash ./install.sh
 	@mkdir -p $(LIB_PATH)
 	@cp lib/*.lua $(LIB_PATH)
 	@cp template.conf $(LIB_PATH)/$(CROWDSEC_CONF)
