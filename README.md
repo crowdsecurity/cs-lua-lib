@@ -1,6 +1,6 @@
 # lua-mod
 
-> Lua module to allow ip (or not) from granola sqlite3 decision DB.
+> Lua module to allow ip (or not) from crowdsec decision DB.
 
 
 
@@ -22,6 +22,8 @@ sudo ./install.sh
 ```
  apt-get install lua5.3
  apt-get install lua-sql-sqlite3
+ apt-get install lua-sql-mysql
+ apt-get install lua-sql-odbc
  apt-get install lua-logging
 ```
 
@@ -48,11 +50,22 @@ cp ./cs-lua-lib/template.conf /usr/local/lua/crowdsec/crowdsec.conf
 ```
 
 ## Configuration
+### supported databases
+* sqlite3
+* mysql
 
-The configuration allow for the moment only 4 entry:
+The configuration params:
 
 ```
-DB_PATH=/var/lib/crowdsec/data/crowdwatch.db  <-- Path to the sqlite DB created by crowdsec
+TYPE=sqlite3                                  <-- supported SGBDR (sqlite3, mysql)
+DB_NAME=/var/lib/crowdsec/data/crowdsec.db    <-- the database name (for mysql) or the database path (for sqlite3)
+DB_HOST=                                      <-- db hostname
+DB_PORT=                                      <-- db port
+DB_USERNAME=                                  <-- username
+DB_PASSWORD=                                  <-- password
+API_HOST=127.0.0.1                            <-- 
+API_PORT=8080                                 <-- 
+API_TOKEN=                                    <-- 
 LOG_FILE=/tmp/lua_mod.log                     <-- path to log file
 CACHE_EXPIRATION=1                            <-- in seconds
 CACHE_SIZE=1000                               <-- cache size
