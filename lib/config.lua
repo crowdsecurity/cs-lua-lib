@@ -39,28 +39,32 @@ function config.loadConfig(file)
     local valid_params = {'DB_NAME', 'DB_HOST', 'DB_PORT', 'DB_USERNAME', 'DB_PASSWORD', 'API_HOST', 'API_PORT', 'API_TOKEN', 'LOG_FILE'}
     local valid_int_params = {'CACHE_EXPIRATION', 'CACHE_SIZE'}
     for line in io.lines(file) do
-        if starts_with(line, "#") then
-            break
-        end
-        local s = split(line, "=")
         local isOk = false
-        for k, v in pairs(s) do
-            if v == "TYPE" then
-                local n = next(s, k)
-                if not has_value(valid_types, s[n]) then
-                    return nil, "Unknown odbc type" .. s[n] .. ", please provide supported type"
+        if starts_with(line, "#") then
+            isOk = true
+        end
+        if not isOk then
+            local s = split(line, "=")
+            for k, v in pairs(s) do
+                if v == "TYPE" then
+                    local n = next(s, k)
+                    if not has_value(valid_types, s[n]) then
+                        return nil, "Unknown odbc type" .. s[n] .. ", please provide supported type"
+                    end
+                    conf[v] = s[n]
+                    break
                 end
-            end
-            if has_value(valid_params, v) then
-                local n = next(s, k)
-                conf[v] = s[n]
-                break
-            elseif has_value(valid_int_params, v) then
-                local n = next(s, k)
-                conf[v] = tonumber(s[n])
-                break
-            else
-                print("unsupported configuration '" .. v .. "'")
+                if has_value(valid_params, v) then
+                    local n = next(s, k)
+                    conf[v] = s[n]
+                    break
+                elseif has_value(valid_int_params, v) then
+                    local n = next(s, k)
+                    conf[v] = tonumber(s[n])
+                    break
+                else
+                    print("unsupported configuration '" .. v .. "'")
+                end
             end
         end
         --if conf["TYPE"] == "sqlite3" then
