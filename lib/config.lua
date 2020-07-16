@@ -50,6 +50,7 @@ function config.loadConfig(file)
                 if not has_value(valid_types, s[n]) then
                     return nil, "Unknown odbc type" .. s[n] .. ", please provide supported type"
                 end
+            end
             if has_value(valid_params, v) then
                 local n = next(s, k)
                 conf[v] = s[n]
