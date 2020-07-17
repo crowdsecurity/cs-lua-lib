@@ -13,8 +13,8 @@ jobs:
       with:
         luaVersion: 5.2
       id: lua
-    - name: Check out code into the Go module directory
+    - name: Check out code
       uses: actions/checkout@v2
-    - name: clone and build hub CI tool
+    - name: run tests
       run: |
-        lua test.lua
+        .lua/bin/lua test.lua
