@@ -1,0 +1,20 @@
+name: Tests
+
+on:
+  pull_request:
+
+jobs:
+  build:
+    name: Lib tests
+    runs-on: ubuntu-latest
+    steps:
+    - name: Get LUA
+      uses: leafo/gh-actions-lua@v6
+      with:
+        luaVersion: 5.3
+      id: lua
+    - name: Check out code
+      uses: actions/checkout@v2
+    - name: run tests
+      run: |
+        lua5.3 test.lua
