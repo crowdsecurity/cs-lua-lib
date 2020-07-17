@@ -1,6 +1,7 @@
 package.path = package.path .. ";./lib/?.lua"
 
-local driver = require "luasql.odbc"
+local mysql = require "luasql.mysql"
+local sqlite = require "luasql.sqlite3"
 local config = require "config"
 local lrucache = require "lrucache"
 local logging = require "logging"
@@ -25,22 +26,20 @@ local csmod = {}
 -- init function
 function csmod.init(configFile)
   local conf, err = config.loadConfig(configFile)
-  local dsn = ''
   if conf == nil then
     return nil, err
   end
   runtime.conf = conf
-  runtime.env = driver.odbc()
   if conf["TYPE"] == "sqlite3" then
-    dsn = "sqlite3:" .. conf["DB_NAME"]
-    runtime.db = runtime.env:connect(dsn)
+    runtime.env = sqlite.sqlite3()
+    runtime.db = runtime.env:connect(conf["DB_NAME"])
   elseif conf["TYPE"] == "mysql" then
+    runtime.env = mysql.mysql()
     local port = "3306"
     if conf["DB_PORT"] then
       port = conf["DB_PORT"]
     end
-    dsn = "mysql:host=" .. conf["DB_HOST"] .. ";port=" .. port .. ";dbname=" .. conf["DB_NAME"] .. ";charset=UTF8"
-    runtime.db = runtime.env:connect(dsn, conf["DB_USERNAME"], conf["DB_PASSWORD"])
+    runtime.db = runtime.env:connect(conf["DB_NAME"], conf["DB_USERNAME"], conf["DB_PASSWORD"], conf["DB_HOST"], port)
   end
 
   local logger = log_file(conf["LOG_FILE"])
@@ -63,7 +62,8 @@ function csmod.allowIp(ip)
   if resp == nil then
     runtime.logger:debug("'" .. ip .. "' not in cache")
     local ip_int = ipToInt(ip)
-    local sqlQuery = "SELECT ip_text from ban_applications WHERE deleted_at is NULL AND until >= now AND start_ip <= '" .. ip_int .. "' AND end_ip >= '" .. ip_int .. "'"
+    local now = os.date('%Y-%m-%d %H:%M:%S')
+    local sqlQuery = "SELECT ip_text from ban_applications WHERE deleted_at is NULL AND until >= '" .. now .. "' AND start_ip <= '" .. ip_int .. "' AND end_ip >= '" .. ip_int .. "'"
     runtime.logger:debug(" query " .. sqlQuery)
     local results = runtime.db:execute(sqlQuery)
     local ok = results:fetch()
