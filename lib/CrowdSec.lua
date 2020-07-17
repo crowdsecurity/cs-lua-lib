@@ -32,6 +32,9 @@ function csmod.init(configFile)
   runtime.conf = conf
   if conf["TYPE"] == "sqlite3" then
     runtime.env = sqlite.sqlite3()
+    if not config.file_exists(conf["DB_NAME"]) then 
+      return nil, "SQlite DB file".. conf["DB_NAME"] .." doesn't exist"
+    end
     runtime.db = runtime.env:connect(conf["DB_NAME"])
   elseif conf["TYPE"] == "mysql" then
     runtime.env = mysql.mysql()
@@ -40,6 +43,9 @@ function csmod.init(configFile)
       port = conf["DB_PORT"]
     end
     runtime.db = runtime.env:connect(conf["DB_NAME"], conf["DB_USERNAME"], conf["DB_PASSWORD"], conf["DB_HOST"], port)
+  end
+  if runtime.db == nil then
+    return nil, "error : failed to init " .. conf["TYPE"] .. " db connection"
   end
 
   local logger = log_file(conf["LOG_FILE"])

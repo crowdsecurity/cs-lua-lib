@@ -67,11 +67,6 @@ function config.loadConfig(file)
                 end
             end
         end
-        --if conf["TYPE"] == "sqlite3" then
-        --    if not config.file_exists(conf["DB_NAME"]) then 
-        --        return nil, "SQlite DB file".. s[n] .." doesn't exist"
-        --    end
-        --end
     end
     return conf, nil
 end
