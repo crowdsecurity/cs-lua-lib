@@ -13,6 +13,7 @@ LUA_VERSIONS=(
 
 DEPENDENCY=(
     "lua-sql-sqlite3"
+    "lua-sql-mysql"
     "lua-logging"
 )
 
