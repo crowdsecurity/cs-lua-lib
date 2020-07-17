@@ -16,48 +16,55 @@ end
     return result;
 end
 
+local function has_value (tab, val)
+    for index, value in ipairs(tab) do
+        if value == val then
+            return true
+        end
+    end
+
+    return false
+end
+
+local function starts_with(str, start)
+    return str:sub(1, #start) == start
+end
+
 function config.loadConfig(file)
     if not config.file_exists(file) then
         return nil, "File".. file .." doesn't exist"
     end
     local conf = {}
-    for line in io.lines(file) do 
-        local s = split(line, "=")
+    local valid_types = {'sqlite3', 'mysql'}
+    local valid_params = {'DB_PATH', 'DB_NAME', 'DB_HOST', 'DB_PORT', 'DB_USERNAME', 'DB_PASSWORD', 'API_HOST', 'API_PORT', 'API_TOKEN', 'LOG_FILE'}
+    local valid_int_params = {'CACHE_EXPIRATION', 'CACHE_SIZE'}
+    for line in io.lines(file) do
         local isOk = false
-        for k, v in pairs(s) do
-            if v == "DB_PATH" then
-                local n = next(s, k)
-                if not config.file_exists(s[n]) then 
-                    return nil, "SQlite DB file".. s[n] .." doesn't exist"
+        if starts_with(line, "#") then
+            isOk = true
+        end
+        if not isOk then
+            local s = split(line, "=")
+            for k, v in pairs(s) do
+                if v == "TYPE" then
+                    local n = next(s, k)
+                    if not has_value(valid_types, s[n]) then
+                        return nil, "Unknown odbc type" .. s[n] .. ", please provide supported type"
+                    end
+                    conf[v] = s[n]
+                    break
                 end
-                conf["DB_PATH"] = s[n]
-                break
-            elseif v == "API_HOST" then
-                local n = next(s, k)
-                conf["API_HOST"] = s[n]
-                break
-            elseif v == "API_PORT" then
-                local n = next(s, k)
-                conf["API_PORT"] = s[n]
-                break
-            elseif v == "API_TOKEN" then
-                local n = next(s, k)
-                conf["API_TOKEN"] = s[n]            
-                break
-            elseif v == "LOG_FILE" then
-                local n = next(s, k)
-                conf["LOG_FILE"] = s[n]            
-                break
-            elseif v == "CACHE_EXPIRATION" then
-                local n = next(s, k)
-                conf["CACHE_EXPIRATION"] = tonumber(s[n])
-                break
-            elseif v == "CACHE_SIZE" then
-                local n = next(s, k)
-                conf["CACHE_SIZE"] = tonumber(s[n])
-                break
-            else
-                print("unsupported configuration '" .. v .. "'")
+                if has_value(valid_params, v) then
+                    local n = next(s, k)
+                    conf[v] = s[n]
+                    break
+                elseif has_value(valid_int_params, v) then
+                    local n = next(s, k)
+                    conf[v] = tonumber(s[n])
+                    break
+                else
+                    print("unsupported configuration '" .. v .. "'")
+                end
             end
         end
     end
