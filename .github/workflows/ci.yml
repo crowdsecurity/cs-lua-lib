@@ -11,7 +11,10 @@ jobs:
     - name: Get LUA
       uses: leafo/gh-actions-lua@v6
       with:
-        luaVersion: 5.3
+        luaVersion: 5.2
+      id: lua
+    - name: Check out code
+      uses: actions/checkout@v2
+    - name: run tests
       run: |
-        lua5.3 test.lua
-
+        lua5.2 test.lua
