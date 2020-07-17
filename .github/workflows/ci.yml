@@ -8,11 +8,13 @@ jobs:
     name: Lib tests
     runs-on: ubuntu-latest
     steps:
-    - name: Check out code
-      uses: actions/checkout@v2
-    - name: run tests
+    - name: Get LUA
       uses: leafo/gh-actions-lua@v6
       with:
         luaVersion: 5.2
+      id: lua
+    - name: Check out code into the Go module directory
+      uses: actions/checkout@v2
+    - name: clone and build hub CI tool
       run: |
-        lua5.2 test.lua
+        lua test.lua
