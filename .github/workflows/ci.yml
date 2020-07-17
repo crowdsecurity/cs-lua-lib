@@ -8,13 +8,9 @@ jobs:
     name: Lib tests
     runs-on: ubuntu-latest
     steps:
-    - name: Get LUA
-      uses: leafo/gh-actions-lua@v6
-      with:
-        luaVersion: 5.2
-      id: lua
     - name: Check out code
       uses: actions/checkout@v2
     - name: run tests
+      uses: leafo/gh-actions-lua@v6
       run: |
         lua5.2 test.lua
