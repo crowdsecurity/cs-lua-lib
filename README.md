@@ -58,11 +58,12 @@ The configuration params:
 
 ```
 TYPE=sqlite3                                  <-- supported SGBDR (sqlite3, mysql)
-DB_NAME=/var/lib/crowdsec/data/crowdsec.db    <-- the database name (for mysql) or the database path (for sqlite3)
-DB_HOST=                                      <-- db hostname
-DB_PORT=                                      <-- db port
-DB_USERNAME=                                  <-- username
-DB_PASSWORD=                                  <-- password
+DB_PATH=/var/lib/crowdsec/data/crowdsec.db    <-- the database path (for sqlite3)
+DB_NAME=crowdsec                              <-- the database name (for mysql)
+DB_HOST=                                      <-- db hostname (for mysql)
+DB_PORT=                                      <-- db port (for mysql)
+DB_USERNAME=                                  <-- username (for mysql)
+DB_PASSWORD=                                  <-- password (for mysql)
 API_HOST=127.0.0.1                            <-- 
 API_PORT=8080                                 <-- 
 API_TOKEN=                                    <-- 

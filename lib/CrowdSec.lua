@@ -32,10 +32,10 @@ function csmod.init(configFile)
   runtime.conf = conf
   if conf["TYPE"] == "sqlite3" then
     runtime.env = sqlite.sqlite3()
-    if not config.file_exists(conf["DB_NAME"]) then 
-      return nil, "SQlite DB file".. conf["DB_NAME"] .." doesn't exist"
+    if not config.file_exists(conf["DB_PATH"]) then 
+      return nil, "SQlite DB file".. conf["DB_PATH"] .." doesn't exist"
     end
-    runtime.db = runtime.env:connect(conf["DB_NAME"])
+    runtime.db = runtime.env:connect(conf["DB_PATH"])
   elseif conf["TYPE"] == "mysql" then
     runtime.env = mysql.mysql()
     local port = "3306"

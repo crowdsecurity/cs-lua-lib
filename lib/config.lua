@@ -36,7 +36,7 @@ function config.loadConfig(file)
     end
     local conf = {}
     local valid_types = {'sqlite3', 'mysql'}
-    local valid_params = {'DB_NAME', 'DB_HOST', 'DB_PORT', 'DB_USERNAME', 'DB_PASSWORD', 'API_HOST', 'API_PORT', 'API_TOKEN', 'LOG_FILE'}
+    local valid_params = {'DB_PATH', 'DB_NAME', 'DB_HOST', 'DB_PORT', 'DB_USERNAME', 'DB_PASSWORD', 'API_HOST', 'API_PORT', 'API_TOKEN', 'LOG_FILE'}
     local valid_int_params = {'CACHE_EXPIRATION', 'CACHE_SIZE'}
     for line in io.lines(file) do
         local isOk = false
