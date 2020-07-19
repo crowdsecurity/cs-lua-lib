@@ -10,10 +10,12 @@ jobs:
     steps:
     - name: Check out code
       uses: actions/checkout@v2
-    - name: Get LUA
+    - name: Get dependency
       uses: leafo/gh-actions-lua@v6
       with:
         luaVersion: 5.2
+      run: |
+        ./install.sh
       id: lua
     - name: run tests
       run: |
