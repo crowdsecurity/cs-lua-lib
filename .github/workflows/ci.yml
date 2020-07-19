@@ -16,4 +16,4 @@ jobs:
         sudo ./install.sh --dependency
     - name: run tests
       run: |
-        .lua/bin/lua test.lua
+        lua5.3 test.lua
