@@ -14,7 +14,8 @@ jobs:
       run: |
         chmod +x install.sh
         sudo ./install.sh --dependency
-        sudo apt-get install lua5.3
+        sudo apt-get install lua5.3 liblua5.3-dev luarocks
+        sudo sudo luarocks install --server=https://luarocks.org/dev luaffi
     - name: run tests
       run: |
         lua5.3 test.lua
