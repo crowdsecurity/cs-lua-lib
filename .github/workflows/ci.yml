@@ -17,6 +17,7 @@ jobs:
       id: lua
     - name: install dependency
       run: |
+        chmod +x install.sh
         ./install.sh
     - name: run tests
       run: |
