@@ -66,7 +66,7 @@ install_lib() {
 
 check_lua
 check_package_dependency
-if [[ "$1" == "--dependency" ]]
+if [[ "$1" == "--dependency" ]];
 then
     exit 0
 fi
