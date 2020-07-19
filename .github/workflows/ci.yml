@@ -18,7 +18,7 @@ jobs:
     - name: install dependency
       run: |
         chmod +x install.sh
-        ./install.sh
+        ./install.sh --dependency
     - name: run tests
       run: |
         .lua/bin/lua test.lua
