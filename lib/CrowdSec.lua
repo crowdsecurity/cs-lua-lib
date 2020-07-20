@@ -69,21 +69,16 @@ function csmod.allowIp(ip)
     runtime.logger:debug("'" .. ip .. "' not in cache")
     local ip_int = ipToInt(ip)
     local now = os.date('%Y-%m-%d %H:%M:%S')
-    local sqlQuery = "SELECT measure_type from ban_applications WHERE deleted_at is NULL AND until >= '" .. now .. "' AND start_ip <= '" .. ip_int .. "' AND end_ip >= '" .. ip_int .. "'"
+    local sqlQuery = "SELECT ip_text from ban_applications WHERE deleted_at is NULL AND until >= '" .. now .. "' AND start_ip <= '" .. ip_int .. "' AND end_ip >= '" .. ip_int .. "'"
     runtime.logger:debug(" query " .. sqlQuery)
     local results = runtime.db:execute(sqlQuery)
-    local measureType = results:fetch()
+    local ok = results:fetch()
     results:close()
-    if measureType == nil then
+    if ok == nil then
       runtime.logger:debug("'" .. ip .. "' = " .. ip_int .. " -> no results")
       runtime.cache:set(ip, true,runtime.conf["CACHE_EXPIRATION"])
       return true, nil
     else
-      isSimulation = measureType:find("simulation:") == 1
-      if isSimulation == true then
-        runtime.logger:debug("'" .. ip .. "' is in simulation")
-        return true
-      end
       runtime.logger:debug("'" .. ip .. "' = " .. ip_int .. " -> found entry !")
       runtime.cache:set(ip, false,runtime.conf["CACHE_EXPIRATION"])
       return false, nil
