@@ -82,7 +82,8 @@ function csmod.allowIp(ip)
       isSimulation = measureType:find("simulation:") == 1
       if isSimulation == true then
         runtime.logger:debug("'" .. ip .. "' is in simulation")
-        return true
+        runtime.cache:set(ip, true,runtime.conf["CACHE_EXPIRATION"])
+        return true, nil
       end
       runtime.logger:debug("'" .. ip .. "' = " .. ip_int .. " -> found entry !")
       runtime.cache:set(ip, false,runtime.conf["CACHE_EXPIRATION"])
